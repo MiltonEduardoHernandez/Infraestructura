@@ -31,7 +31,7 @@ pipeline {
         // Etapa final para mostrar el resultado
         stage('Resultado') {
             steps {
-                echo 'El programa se ejecutó correctamente.'
+                echo 'El programa se ejecutó correctamente.....'
             }
         }
     }
