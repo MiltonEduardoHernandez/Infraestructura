@@ -1,0 +1,38 @@
+pipeline {
+    agent any  // Define que Jenkins puede ejecutar el pipeline en cualquier nodo disponible
+
+    stages {
+        // Etapa para clonar el repositorio
+        stage('Clonar Repositorio') {
+            steps {
+                // Clonamos el repositorio donde está tu código
+                git 'https://github.com/MiltonEduardoHernandez/Infraestructura.git'  // Cambia con tu URL de GitHub
+            }
+        }
+        
+        // Etapa para ejecutar el programa
+        stage('Ejecutar Programa') {
+            steps {
+                // Aquí ejecutas tu programa, por ejemplo un script en Python
+                sh 'python cuenta.py'  // Cambia esto según el lenguaje de tu programa
+            }
+        }
+
+        // Etapa para realizar pruebas (opcional)
+        stage('Pruebas') {
+            steps {
+                // Ejecuta tus pruebas automáticas si las tienes
+                echo 'Ejecutando pruebas...'
+                // Aquí podrías tener comandos para ejecutar pruebas si las has configurado
+                // sh 'pytest tests/test_program.py'  // Por ejemplo, si usas Python
+            }
+        }
+
+        // Etapa final para mostrar el resultado
+        stage('Resultado') {
+            steps {
+                echo 'El programa se ejecutó correctamente.'
+            }
+        }
+    }
+}
