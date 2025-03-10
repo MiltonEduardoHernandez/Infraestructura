@@ -14,7 +14,7 @@ pipeline {
         stage('Ejecutar Programa') {
             steps {
                 // Aquí ejecutas tu programa, por ejemplo un script en Python
-                sh 'python cuenta.py'  // Cambia esto según el lenguaje de tu programa
+                sh 'python3 cuenta.py'  // Cambia esto según el lenguaje de tu programa
             }
         }
 
