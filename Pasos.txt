@@ -50,3 +50,7 @@
 
 8. Save and run the pipeline:
     - Click `Save` and then `Build Now` to run your pipeline.
+
+    ->problemas que tuve problema de entender que era jenkins
+    -> tuve que crear un token y asociarlo a jenkins
+    -> hacer una prueba 
