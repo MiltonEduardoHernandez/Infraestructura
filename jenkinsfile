@@ -6,7 +6,7 @@ pipeline {
         stage('Clonar Repositorio') {
             steps {
                 // Clonamos el repositorio donde está tu código
-                git 'https://github.com/MiltonEduardoHernandez/Infraestructura.git'  // Cambia con tu URL de GitHub
+                git 'https://github.com/MiltonEduardoHernandez/Infraestructura.git', branch: 'main' // Cambia con tu URL de GitHub
             }
         }
         
