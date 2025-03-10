@@ -1,0 +1,52 @@
+1. Install Docker:
+    - Follow the instructions on the official Docker website to install Docker on your system.
+
+2. Pull the Jenkins Docker image:
+    ```sh
+    docker pull jenkins/jenkins:lts
+    ```
+
+3. Run the Jenkins container:
+    ```sh
+    docker run -d -p 8080:8080 -p 50000:50000 --name jenkins jenkins/jenkins:lts
+    ```
+
+4. Access Jenkins:
+    - Open your web browser and go to `http://localhost:8080`.
+    - Follow the instructions to unlock Jenkins using the initial admin password.
+
+5. Install suggested plugins:
+    - After unlocking Jenkins, install the suggested plugins.
+
+6. Create a new Jenkins pipeline:
+    - Go to `New Item` in Jenkins.
+    - Enter a name for your pipeline and select `Pipeline`, then click `OK`.
+
+7. Configure the pipeline:
+    - In the pipeline configuration, scroll down to the `Pipeline` section.
+    - Select `Pipeline script` and enter your pipeline script. For example:
+      ```groovy
+      pipeline {
+            agent any
+            stages {
+                 stage('Build') {
+                      steps {
+                            echo 'Building...'
+                      }
+                 }
+                 stage('Test') {
+                      steps {
+                            echo 'Testing...'
+                      }
+                 }
+                 stage('Deploy') {
+                      steps {
+                            echo 'Deploying...'
+                      }
+                 }
+            }
+      }
+      ```
+
+8. Save and run the pipeline:
+    - Click `Save` and then `Build Now` to run your pipeline.

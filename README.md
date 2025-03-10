@@ -1,10 +1,11 @@
 # Infraestructura
 MS aprendizaje
 La idea principal de este proyecto es la integracion CI/CD, la funcion principal de un junior DevOps es conocer herramientas y operaciones basicas, las que me ayudaran a poder realizar tareas cortas que haran crecer en mi entorno laboral y desarrollarme profesiomnalmente.
-TL Ivan Camus 
-Junior DevOps Eduardo Hernandez
 
-bibliografia
+Team Leader: Ivan Camus 
+Junior DevOps: Eduardo Hernandez
+
+Bibliografia
 
 Kubernetes in Google Cloud -> https://partner.cloudskillsboost.google/course_templates/744
 
