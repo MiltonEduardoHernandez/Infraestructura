@@ -1,55 +1,69 @@
 pipeline {
-    agent any  // Define que Jenkins puede ejecutar el pipeline en cualquier nodo disponible
+    agent any  
+
+    tools {
+        maven 'Maven 3.8.1'  // Cambia esto por la versión de Maven instalada en Jenkins
+        jdk 'jdk11'           // Cambia esto por la versión de JDK configurada en Jenkins
+    }
 
     stages {
         // Etapa para clonar el repositorio
-        //stage('Clonar Repositorio') {
-          //  steps {
-                // Clonamos el repositorio donde está tu código
-            //    git 'https://github.com/MiltonEduardoHernandez/Infraestructura.git', branch: 'main' // Cambia con tu URL de GitHub
-           // }
-        //}
-        
-        // Etapa para ejecutar el programa
-        stage('Ejecutar Programa') {
+        stage('Clonar Repositorio') {
             steps {
-                // Aquí ejecutas tu programa, por ejemplo un script en Python
-                //sh 'python3 cuenta.py'  // Cambia esto según el lenguaje de tu programa
-                script {
-                    // Construir la imagen Docker
-                    sh 'docker build -t my-app .'
-                }
-
+                git 'https://github.com/MiltonEduardoHernandez/Infraestructura.git'
+            }
+        }
+        
+        // Etapa para compilar el proyecto con Maven
+        stage('Compilación') {
+            steps {
+                sh 'mvn clean compile'
             }
         }
 
-        // Etapa para realizar pruebas (opcional)
+        // Etapa para ejecutar pruebas automatizadas
         stage('Pruebas') {
             steps {
-                // Ejecuta tus pruebas automáticas si las tienes
-                echo 'Ejecutando pruebas...'
-                // Aquí podrías tener comandos para ejecutar pruebas si las has configurado
-                // sh 'pytest tests/test_program.py'  // Por ejemplo, si usas Python
+                sh 'mvn test'
+            }
+        }
+
+        // Etapa para construir un paquete (ejemplo: .jar o .war)
+        stage('Construir Paquete') {
+            steps {
+                sh 'mvn package'
+            }
+        }
+
+        // Etapa para construir la imagen Docker
+        stage('Construcción Docker') {
+            steps {
                 script {
-                    // Ejecutar la imagen Docker
+                    sh 'docker build -t my-app .'
+                }
+            }
+        }
+
+        // Etapa para desplegar la imagen Docker
+        stage('Despliegue') {
+            steps {
+                script {
                     sh 'docker run -d -p 8080:8080 my-app'
                 }
-
             }
         }
 
-        // Etapa final para mostrar el resultado
+        // Etapa para mostrar que todo se ejecutó correctamente
         stage('Resultado') {
             steps {
-                echo 'El programa se ejecutó correctamente.....'
+                echo 'Pipeline ejecutado correctamente con Maven y Docker.'
             }
         }
-
     }
-     post {
+
+    post {
         always {
             cleanWs() // Limpiar el workspace después del job
         }
     }
-
 }
