@@ -2,52 +2,29 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+    <!-- Versión del modelo -->
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Información básica del proyecto -->
     <groupId>com.example</groupId>
-    <artifactId>my-app</artifactId>
+    <artifactId>mi-aplicacion</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
 
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-    </properties>
-
+    <!-- Dependencias -->
     <dependencies>
-        <!-- Aquí puedes agregar tus dependencias -->
-        <dependencies>
-    <!-- Dependencia Spring Boot Starter Web (para aplicaciones web) -->
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-
-    <!-- Dependencia Spring Boot Starter Test (para pruebas) -->
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-test</artifactId>
-        <scope>test</scope>
-    </dependency>
-
-    <!-- Dependencia Spring Boot Starter JPA (para acceso a bases de datos) -->
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-data-jpa</artifactId>
-    </dependency>
-
-    <!-- Dependencia MySQL (si usas MySQL como base de datos) -->
-    <dependency>
-        <groupId>mysql</groupId>
-        <artifactId>mysql-connector-java</artifactId>
-        <scope>runtime</scope>
-    </dependency>
-</dependencies>
-
+        <!-- JUnit para pruebas -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
+    <!-- Configuración del build -->
     <build>
         <plugins>
+            <!-- Plugin para compilar Java -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -57,6 +34,21 @@
                     <target>11</target>
                 </configuration>
             </plugin>
+
+            <!-- Plugin para empaquetar en un .jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.example.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
 </project>
