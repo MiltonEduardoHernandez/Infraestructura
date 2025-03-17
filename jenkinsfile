@@ -47,7 +47,7 @@ pipeline {
         stage('Desplegar Imagen Docker') {
             steps {
                 script {
-                    sh 'docker run -d -p 8080:8080 my-maven-app'
+                    sh 'docker run -d -p 8080:8080 my-prueba-app'
                 }
             }
         }
