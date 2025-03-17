@@ -1,5 +1,5 @@
 # Usamos la imagen oficial de Maven para compilar y empaquetar la aplicación
-FROM maven:3.8.6-openjdk-17 AS builder
+FROM maven:3.8.6-eclipse-temurin-17 AS builder
 
 # Establecemos el directorio de trabajo
 WORKDIR /app
