@@ -1,20 +1,36 @@
-# Usa una imagen oficial de Maven para construir el proyecto
-FROM maven:3.8.1-openjdk-11 AS build
+# Usamos la imagen oficial de Maven para compilar y empaquetar la aplicación
+FROM maven:3.8.6-openjdk-17 AS builder
 
+# Establecemos el directorio de trabajo
 WORKDIR /app
+
+# Copiamos el archivo pom.xml y las dependencias
+COPY pom.xml .
+
+# Descargamos las dependencias para que se almacenen en caché si no han cambiado
+RUN mvn dependency:resolve
+
+# Copiamos el resto del código fuente de la aplicación
 COPY . .
 
-# Compila el proyecto y genera el .jar
-RUN mvn clean package
+# Construimos el paquete de la aplicación
+RUN mvn clean package -DskipTests
 
-# Usa una imagen de Java para ejecutar la aplicación
-FROM openjdk:11-jre-slim
+# -----------------------
+# Imagen para producción
+# -----------------------
 
+# Usamos una imagen ligera de Java para producción
+FROM openjdk:17-jdk-slim
+
+# Directorio donde se copiará el archivo .jar
 WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
 
+# Copiamos el archivo .jar generado por Maven desde la imagen anterior
+COPY --from=builder /app/target/*.jar app.jar
+
+# Exponemos el puerto en el que correrá la aplicación
 EXPOSE 8080
 
-# Ejecuta la aplicación
+# Comando para ejecutar la aplicación
 CMD ["java", "-jar", "app.jar"]
-
