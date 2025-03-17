@@ -15,7 +15,11 @@ pipeline {
             steps {
                 // Aquí ejecutas tu programa, por ejemplo un script en Python
                 //sh 'python3 cuenta.py'  // Cambia esto según el lenguaje de tu programa
-                
+                script {
+                    // Construir la imagen Docker
+                    sh 'docker build -t my-app .'
+                }
+
             }
         }
 
@@ -26,6 +30,11 @@ pipeline {
                 echo 'Ejecutando pruebas...'
                 // Aquí podrías tener comandos para ejecutar pruebas si las has configurado
                 // sh 'pytest tests/test_program.py'  // Por ejemplo, si usas Python
+                script {
+                    // Ejecutar la imagen Docker
+                    sh 'docker run -d -p 8080:8080 my-app'
+                }
+
             }
         }
 
@@ -35,5 +44,12 @@ pipeline {
                 echo 'El programa se ejecutó correctamente.....'
             }
         }
+
     }
+     post {
+        always {
+            cleanWs() // Limpiar el workspace después del job
+        }
+    }
+
 }
