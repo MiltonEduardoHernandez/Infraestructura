@@ -1,69 +1,61 @@
 pipeline {
-    agent any  
+    agent any
 
     tools {
-        maven 'Maven 3.8.1'  // Cambia esto por la versión de Maven instalada en Jenkins
-        jdk 'jdk11'           // Cambia esto por la versión de JDK configurada en Jenkins
+        maven 'Maven 3.8.6'  // Cambia esto si tu versión de Maven es diferente
     }
 
     stages {
-        // Etapa para clonar el repositorio
-        stage('Clonar Repositorio') {
+        //stage('Clonar Repositorio') {
+           // steps {
+             //   git 'https://github.com/MiltonEduardoHernandez/Infraestructura.git'  // Cambia esta URL a tu repo
+            //}
+        //}
+
+        stage('Compilar') {
             steps {
-                git 'https://github.com/MiltonEduardoHernandez/Infraestructura.git'
-            }
-        }
-        
-        // Etapa para compilar el proyecto con Maven
-        stage('Compilación') {
-            steps {
-                sh 'mvn clean compile'
+                script {
+                    sh 'mvn clean compile'
+                }
             }
         }
 
-        // Etapa para ejecutar pruebas automatizadas
         stage('Pruebas') {
             steps {
-                sh 'mvn test'
-            }
-        }
-
-        // Etapa para construir un paquete (ejemplo: .jar o .war)
-        stage('Construir Paquete') {
-            steps {
-                sh 'mvn package'
-            }
-        }
-
-        // Etapa para construir la imagen Docker
-        stage('Construcción Docker') {
-            steps {
                 script {
-                    sh 'docker build -t my-app .'
+                    sh 'mvn test'
                 }
             }
         }
 
-        // Etapa para desplegar la imagen Docker
-        stage('Despliegue') {
+        stage('Empaquetar') {
             steps {
                 script {
-                    sh 'docker run -d -p 8080:8080 my-app'
+                    sh 'mvn package'
                 }
             }
         }
 
-        // Etapa para mostrar que todo se ejecutó correctamente
-        stage('Resultado') {
+        stage('Construir Imagen Docker') {
             steps {
-                echo 'Pipeline ejecutado correctamente con Maven y Docker.'
+                script {
+                    sh 'docker build -t my-prueba-app .'
+                }
+            }
+        }
+
+        stage('Desplegar Imagen Docker') {
+            steps {
+                script {
+                    sh 'docker run -d -p 8080:8080 my-maven-app'
+                }
             }
         }
     }
 
     post {
         always {
-            cleanWs() // Limpiar el workspace después del job
+            cleanWs() // Limpia el workspace después de que se complete el job
         }
     }
 }
