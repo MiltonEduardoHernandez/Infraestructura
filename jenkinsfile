@@ -1,14 +1,13 @@
 pipeline {
     agent any
 
-    stages {
-        stage('Limpiar Workspace') {
-            steps {
-                sh 'rm -rf target'
-            }
-        }
+    environment {
+        IMAGE_NAME = "mi-aplicacion"
+        IMAGE_TAG = "latest"
+    }
 
-        stage('Clonar Código') {
+    stages {
+        stage('Clonar Repositorio') {
             steps {
                 git 'https://github.com/MiltonEduardoHernandez/Infraestructura.git'
             }
@@ -16,20 +15,31 @@ pipeline {
 
         stage('Compilar con Maven') {
             steps {
-                sh 'mvn clean package'
+                sh 'mvn clean package -DskipTests'
             }
         }
 
         stage('Construir Imagen Docker') {
             steps {
-                sh 'docker build -t mi-aplicacion .'
+                script {
+                    sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
+                }
             }
         }
 
-        stage('Ejecutar Contenedor') {
-            steps {
-                sh 'docker run --rm mi-aplicacion'
-            }
+       // stage('Ejecutar Contenedor de Prueba') {
+         //   steps {
+           //     script {
+             //       sh "docker run -d --name mi-aplicacion -p 8080:8080 ${IMAGE_NAME}:${IMAGE_TAG}"
+               // }
+           // }
+       // }
+    }
+
+    post {
+        always {
+            sh "docker stop mi-aplicacion || true"
+            sh "docker rm mi-aplicacion || true"
         }
     }
 }
