@@ -2,6 +2,12 @@ pipeline {
     agent any
 
     stages {
+        stage('Limpiar Workspace') {
+            steps {
+                sh 'rm -rf target'
+            }
+        }
+
         stage('Clonar Código') {
             steps {
                 git 'https://github.com/MiltonEduardoHernandez/Infraestructura.git'
