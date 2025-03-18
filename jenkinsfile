@@ -30,7 +30,7 @@ pipeline {
         stage('Construir Imagen Docker') {
             steps {
                 script {
-                    sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
+                    sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} /var/jenkins_home/workspace/hilo_git_jekins"
                 }
             }
         }
