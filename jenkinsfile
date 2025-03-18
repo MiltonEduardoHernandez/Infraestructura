@@ -27,13 +27,13 @@ pipeline {
             }
         }
 
-       // stage('Ejecutar Contenedor de Prueba') {
-         //   steps {
-           //     script {
-             //       sh "docker run -d --name mi-aplicacion -p 8080:8080 ${IMAGE_NAME}:${IMAGE_TAG}"
-               // }
-           // }
-       // }
+        stage('Ejecutar Contenedor de Prueba') {
+            steps {
+                script {
+                    sh "docker run -d --name mi-aplicacion -p 8080:8080 ${IMAGE_NAME}:${IMAGE_TAG}"
+                }
+            }
+        }
     }
 
     post {
