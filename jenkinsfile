@@ -7,6 +7,14 @@ pipeline {
     }
 
     stages {
+        stage('Verificar Docker') {
+            steps {
+                script {
+                    sh 'docker version || exit 1'
+                }
+            }
+        }
+
         stage('Clonar Repositorio') {
             steps {
                 git 'https://github.com/MiltonEduardoHernandez/Infraestructura.git'
@@ -30,7 +38,16 @@ pipeline {
         stage('Ejecutar Contenedor de Prueba') {
             steps {
                 script {
+                    sh "docker rm -f mi-aplicacion || true"
                     sh "docker run -d --name mi-aplicacion -p 8080:8080 ${IMAGE_NAME}:${IMAGE_TAG}"
+                }
+            }
+        }
+
+        stage('Probar Contenedor') {
+            steps {
+                script {
+                    sh "sleep 5 && curl -f http://localhost:8080 || exit 1"
                 }
             }
         }
