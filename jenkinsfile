@@ -1,61 +1,29 @@
 pipeline {
     agent any
 
-    tools {
-        maven 'Maven 3.8.6'  // Cambia esto si tu versión de Maven es diferente
-    }
-
     stages {
-        stage('Clonar Repositorio') {
+        stage('Clonar Código') {
             steps {
-                git 'https://github.com/MiltonEduardoHernandez/Infraestructura.git'  // Cambia esta URL a tu repo
+                git 'https://github.com/MiltonEduardoHernandez/Infraestructura.git'
             }
         }
 
-        stage('Compilar') {
+        stage('Compilar con Maven') {
             steps {
-                script {
-                    sh 'mvn clean compile'
-                }
-            }
-        }
-
-        stage('Pruebas') {
-            steps {
-                script {
-                    sh 'mvn test'
-                }
-            }
-        }
-
-        stage('Empaquetar') {
-            steps {
-                script {
-                    sh 'mvn package'
-                }
+                sh 'mvn clean package'
             }
         }
 
         stage('Construir Imagen Docker') {
             steps {
-                script {
-                    sh 'docker build -t my-prueba-app .'
-                }
+                sh 'docker build -t mi-aplicacion .'
             }
         }
 
-        stage('Desplegar Imagen Docker') {
+        stage('Ejecutar Contenedor') {
             steps {
-                script {
-                    sh 'docker run -d -p 8080:8080 my-prueba-app'
-                }
+                sh 'docker run --rm mi-aplicacion'
             }
-        }
-    }
-
-    post {
-        always {
-            cleanWs() // Limpia el workspace después de que se complete el job
         }
     }
 }
