@@ -6,11 +6,11 @@ pipeline {
     }
 
     stages {
-        //stage('Clonar Repositorio') {
-           // steps {
-             //   git 'https://github.com/MiltonEduardoHernandez/Infraestructura.git'  // Cambia esta URL a tu repo
-            //}
-        //}
+        stage('Clonar Repositorio') {
+            steps {
+                git 'https://github.com/MiltonEduardoHernandez/Infraestructura.git'  // Cambia esta URL a tu repo
+            }
+        }
 
         stage('Compilar') {
             steps {
