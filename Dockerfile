@@ -34,4 +34,3 @@ EXPOSE 8080
 
 # Comando para ejecutar la aplicación
 CMD ["java", "-jar", "app.jar"]
-#sergio
