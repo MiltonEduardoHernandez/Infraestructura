@@ -60,3 +60,21 @@ pipeline {
         }
     }
 }
+/*pendiente cosas por hacer
+1. agregar un stage para subir la imagen a docker hub
+2. agregar un stage para desplegar la imagen en un cluster de kubernetes
+3. agregar un stage para hacer pruebas de integracion
+4. agregar un stage para hacer pruebas de rendimiento
+5. agregar un stage para hacer pruebas de seguridad
+6. agregar un stage para hacer pruebas de disponibilidad
+7. agregar un stage para hacer pruebas de tolerancia a fallos
+8. agregar un stage para hacer pruebas de recuperacion de desastres
+9. agregar un stage para hacer pruebas de escalabilidad
+10. agregar un stage para hacer pruebas de monitoreo
+11. agregar un stage para hacer pruebas de logueo
+12. agregar un stage para hacer pruebas de auditoria
+13. agregar un stage para hacer pruebas de cumplimiento
+14. agregar un stage para hacer pruebas de vulnerabilidades
+15. agregar un stage para hacer pruebas de calidad de codigo
+16. agregar un stage para hacer pruebas de cobertura de codigo
+17. agregar un stage para hacer pruebas de rendimiento de codigo
