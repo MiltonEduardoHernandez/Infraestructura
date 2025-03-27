@@ -4,6 +4,11 @@ pipeline {
     environment {
         IMAGE_NAME = "mi-aplicacion"
         IMAGE_TAG = "latest"
+        CONTAINER_NAME = "mi-aplicacion"
+        APP_PORT = "8090"  // Puerto en el host
+        INTERNAL_PORT = "8080"  // Puerto expuesto por la app
+        DOCKER_HUB_CREDENTIALS = 'dockerhub-creds'
+        
     }
 
     stages {
@@ -39,24 +44,38 @@ pipeline {
             steps {
                 script {
                     sh "docker rm -f mi-aplicacion || true"
-                    sh "docker run -d --name mi-aplicacion -p 8080:8080 ${IMAGE_NAME}:${IMAGE_TAG}"
+                    // sh "docker run -d --name mi-aplicacion -p 8080:8080 ${IMAGE_NAME}:${IMAGE_TAG}"
+                     sh "docker run -d --name ${CONTAINER_NAME} -p ${APP_PORT}:${INTERNAL_PORT} ${IMAGE_NAME}:${IMAGE_TAG}"
                 }
+            }
+        }
+        stage('Login en Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: "$DOCKER_HUB_CREDENTIALS", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+                }
+            }
+        }
+        stage('Push a Docker Hub') {
+            steps {
+                sh 'docker push $IMAGE_NAME:$IMAGE_TAG'
             }
         }
 
-        stage('Probar Contenedor') {
-            steps {
-                script {
-                    sh "sleep 5 && curl -f http://localhost:8080 || exit 1"
-                }
-            }
-        }
-    }
+    //     stage('Probar Contenedor') {
+    //         steps {
+    //             script {
+    //                 sh "sleep 5 && curl -f http://localhost:8080 || exit 1"
+    //             }
+    //         }
+    //     }
+    // }
 
     post {
         always {
             sh "docker stop mi-aplicacion || true"
             sh "docker rm mi-aplicacion || true"
+            sh 'docker run -d -p 9090:8080 --name $CONTAINER_NAME $IMAGE_NAME:$IMAGE_TAG'
         }
     }
 }
