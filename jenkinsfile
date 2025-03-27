@@ -20,11 +20,11 @@ pipeline {
             }
         }
 
-        stage('Clonar Repositorio') {
-            steps {
-                git 'https://github.com/MiltonEduardoHernandez/Infraestructura.git'
-            }
-        }
+        // stage('Clonar Repositorio') {
+        //     steps {
+        //         git 'https://github.com/MiltonEduardoHernandez/Infraestructura.git'
+        //     }
+        // }
 
         stage('Compilar con Maven') {
             steps {
